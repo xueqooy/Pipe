@@ -3,10 +3,10 @@ A alternative to NSNotificationCenter
 
 # Usage
 ```swift
-// Automatically invalidate sink channel on release
+// Automatically invalidate on release.
 var pipe: Pipe<String>?
 
-// Automatically invalidate source channel on release
+// Automatically invalidate on release.
 var token1: PipeSourceToken?
 var token2: PipeSourceToken?
 
@@ -19,7 +19,7 @@ foo() {
     }
     
     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-        // Broadcast a value
+        // Broadcast a value.
         self.pipe?.sinkChannel.write("郑念真 520")
         
         // Source2: Receive value on main queue, and replay latest value.
