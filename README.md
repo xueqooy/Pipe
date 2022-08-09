@@ -3,10 +3,10 @@ A alternative to NSNotificationCenter
 
 # Usage
 ```swift
-// Automaticlly invalidate sink channel on release
+// Automatically invalidate sink channel on release
 var pipe: Pipe<String>?
 
-// Automaticlly invalidate source channel on release
+// Automatically invalidate source channel on release
 var token1: PipeSourceToken?
 var token2: PipeSourceToken?
 
