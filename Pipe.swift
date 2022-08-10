@@ -71,14 +71,17 @@ public class PipeSourceToken {
 
 
 public class PipeSourceChannel<T>: PipeChannel {
-    private var tokens = WeakArray<PipeSourceToken>()
+    private var tokens = NSHashTable<PipeSourceToken>.weakObjects()
     
     deinit {
         invalidateTokens()
     }
     
     fileprivate func invalidateTokens() {
-        tokens.elements.forEach{ $0.invalidate() }
+        let enumerator = tokens.objectEnumerator()
+        while let token = enumerator.nextObject() as? PipeSourceToken {
+            token.invalidate()
+        }
     }
     
     public func read(onQueue queue: OperationQueue? = nil, replay: Bool = false, block: @escaping (T?) -> Void) -> PipeSourceToken? {
@@ -92,7 +95,7 @@ public class PipeSourceChannel<T>: PipeChannel {
             block(value as? T)
         })
         
-        tokens.append(token)
+        tokens.add(token)
                 
         if replay && context.hasSunk {
             block(context.latestValue as? T)
@@ -101,7 +104,6 @@ public class PipeSourceChannel<T>: PipeChannel {
         return token
     }
 }
-
 
 public class Pipe<T> {
     
